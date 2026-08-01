@@ -2,7 +2,7 @@
 
 A live, retro-arcade dashboard that counts down the last grading pile of the 2025/2026 academic year: three courses, 31 submissions, one very determined lecturer.
 
-**Live dashboard:** https://YOUR-USERNAME.github.io/countdown/ *(replace with your link)*
+**Live dashboard:** https://moriavibe.github.io/countdown/ *(replace with your link)*
 
 Friends open the link and watch the numbers drop in real time. No installs, no refreshing needed, and a built-in arcade for anyone who gets stressed just from watching.
 

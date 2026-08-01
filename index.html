@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הספירה לאחור של מוריה 🕹️</title>
+<meta name="description" content="כמה הגשות נשארו למוריה לבדוק עד החופש? דשבורד רטרו עם פינבול, ניילון בועות ונשימות.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Heebo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07071a;
+    --surface:#0d0d26;
+    --card:#111133;
+    --ink:#f2f4ff;
+    --ink2:#aab0d6;
+    --ink3:#6b71a3;
+    --cyan:#00e5ff;
+    --magenta:#ff4fd8;
+    --yellow:#ffd93d;
+    --green:#2bd97c;
+    --orange:#ff9f1c;
+    --red:#ff4757;
+    --font-pixel:'Press Start 2P', monospace;
+    --font-he:'Heebo','Segoe UI',Arial,sans-serif;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:radial-gradient(1200px 700px at 50% -10%, #171744 0%, var(--bg) 55%) fixed, var(--bg);
+    color:var(--ink);
+    font-family:var(--font-he);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  /* CRT scanlines + vignette overlay */
+  .crt{
+    position:fixed; inset:0; z-index:60; pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
+    mix-blend-mode:multiply;
+  }
+  .crt::after{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(120% 100% at 50% 40%, transparent 60%, rgba(0,0,0,.45) 100%);
+  }
+  .lights{
+    height:6px; width:100%;
+    background:repeating-linear-gradient(90deg,
+      var(--cyan) 0 24px, var(--magenta) 24px 48px, var(--yellow) 48px 72px, var(--green) 72px 96px);
+    animation:lights 1.4s steps(4) infinite;
+    opacity:.85;
+  }
+  @keyframes lights{ to{ background-position:96px 0; } }
+
+  .wrap{max-width:1080px; margin:0 auto; padding:18px 16px 60px;}
+
+  header{position:relative; text-align:center; padding:26px 8px 8px;}
+  h1{
+    margin:0 0 10px;
+    font-family:var(--font-pixel);
+    font-size:clamp(17px, 3.6vw, 28px);
+    line-height:1.7;
+    color:var(--cyan);
+    text-shadow:0 0 8px rgba(0,229,255,.8), 0 0 26px rgba(0,229,255,.45);
+    letter-spacing:1px;
+  }
+  header .sub{margin:0; color:var(--ink2); font-size:15px;}
+  header .sub b{color:var(--ink);}
+  .mute-btn{
+    position:absolute; inset-inline-end:0; top:0;
+    background:transparent; border:1px solid var(--ink3); color:var(--ink);
+    border-radius:10px; font-size:18px; padding:6px 10px; cursor:pointer;
+  }
+  .mute-btn:hover{border-color:var(--cyan); box-shadow:0 0 10px rgba(0,229,255,.4);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    margin:20px 0;
+    text-align:center;
+    border:1px solid var(--yellow);
+    border-radius:16px;
+    padding:26px 18px 24px;
+    background:linear-gradient(180deg, #14143d 0%, var(--surface) 100%);
+    box-shadow:0 0 18px rgba(255,217,61,.25), inset 0 0 40px rgba(0,0,0,.45);
+  }
+  .hero-label{
+    font-size:14px; color:var(--ink2); letter-spacing:2px; margin-bottom:6px;
+  }
+  .hero-num{
+    font-family:var(--font-pixel);
+    font-size:clamp(54px, 12vw, 92px);
+    color:var(--yellow);
+    text-shadow:0 0 12px rgba(255,217,61,.85), 0 0 42px rgba(255,217,61,.4);
+    direction:ltr; unicode-bidi:isolate;
+    line-height:1.1;
+  }
+  .hero-sub{color:var(--ink2); margin-top:8px; font-size:15px;}
+  .hero-sub .num{color:var(--ink); font-weight:800;}
+  .overall-track{
+    margin:18px auto 6px; max-width:640px; height:20px; border-radius:10px;
+    background:color-mix(in srgb, var(--yellow) 13%, #0a0a20);
+    border:1px solid rgba(255,217,61,.35);
+    overflow:hidden;
+  }
+  .overall-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--green), var(--yellow));
+    border-radius:10px;
+    box-shadow:0 0 14px rgba(255,217,61,.7);
+    transition:width .6s ease;
+  }
+  .overall-pct{font-family:var(--font-pixel); font-size:13px; color:var(--ink); direction:ltr; unicode-bidi:isolate;}
+  .milestone{margin-top:10px; color:var(--ink2); font-size:15px; min-height:24px;}
+
+  /* ---------- meters row ---------- */
+  .meters{display:grid; grid-template-columns:1.25fr 1fr 1fr; gap:14px; margin:18px 0;}
+  .panel{
+    border-radius:14px; padding:16px;
+    background:linear-gradient(180deg, #12123a 0%, var(--surface) 100%);
+    border:1px solid var(--c, var(--ink3));
+    box-shadow:0 0 14px color-mix(in srgb, var(--c, #444a88) 30%, transparent), inset 0 0 26px rgba(0,0,0,.4);
+  }
+  .panel h3{margin:0 0 10px; font-size:15px; font-weight:800; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .panel h3 .dot{width:10px; height:10px; border-radius:50%; background:var(--c); box-shadow:0 0 8px var(--c); flex:0 0 auto;}
+  .gauge-wrap{text-align:center;}
+  .gauge-wrap svg{width:min(100%, 260px); height:auto; display:block; margin:0 auto;}
+  #needleG{transform-box:view-box; transform-origin:100px 110px; transition:transform .9s cubic-bezier(.34,1.56,.64,1);}
+  .gauge-ends{display:flex; justify-content:space-between; max-width:260px; margin:2px auto 0; color:var(--ink2); font-size:13px;}
+  .stress-val{font-family:var(--font-pixel); font-size:15px; margin-top:8px; color:var(--ink); direction:ltr; unicode-bidi:isolate;}
+  .stress-label{color:var(--ink2); font-size:15px; margin-top:4px; min-height:22px;}
+  .count-title{color:var(--ink2); font-size:13px; margin-bottom:2px;}
+  .count-course{font-weight:800; font-size:16px; margin-bottom:10px;}
+  .count-digits{
+    font-family:var(--font-pixel); font-size:clamp(14px,2.2vw,17px);
+    color:var(--ink); direction:ltr; unicode-bidi:isolate;
+    text-shadow:0 0 8px color-mix(in srgb, var(--c) 70%, transparent);
+    letter-spacing:1px; white-space:nowrap;
+  }
+  .count-units{display:flex; gap:14px; direction:ltr; justify-content:flex-start;}
+  .count-cell{text-align:center;}
+  .count-cell small{display:block; font-family:var(--font-he); color:var(--ink3); font-size:11px; margin-top:4px; letter-spacing:0;}
+  .count-passed{color:var(--red); font-weight:800; font-size:15px;}
+  .count-date{margin-top:10px; color:var(--ink3); font-size:13px;}
+
+  /* ---------- course cards ---------- */
+  .courses{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:6px 0 22px;}
+  .course{position:relative; overflow:hidden;}
+  .course .tag{
+    display:inline-block; font-size:12px; color:var(--ink2);
+    border:1px solid var(--ink3); border-radius:20px; padding:1px 10px; margin-bottom:8px;
+  }
+  .course h3{margin:0 0 2px; font-size:18px; font-weight:800;}
+  .course .left-num{
+    font-family:var(--font-pixel); font-size:44px; color:var(--c);
+    text-shadow:0 0 10px color-mix(in srgb, var(--c) 80%, transparent);
+    direction:ltr; unicode-bidi:isolate; line-height:1.2; margin-top:8px; text-align:center;
+  }
+  .course .left-word{color:var(--ink2); font-size:14px; margin-bottom:12px; text-align:center;}
+  .track{
+    height:14px; border-radius:8px; overflow:hidden;
+    background:color-mix(in srgb, var(--c) 13%, #0a0a20);
+    border:1px solid color-mix(in srgb, var(--c) 35%, transparent);
+  }
+  .fill{
+    height:100%; width:0%;
+    background:var(--c); border-radius:8px;
+    box-shadow:0 0 12px var(--c);
+    transition:width .5s ease;
+  }
+  .course .nums{display:flex; justify-content:space-between; color:var(--ink2); font-size:13px; margin-top:6px;}
+  .course .nums .num{direction:ltr; unicode-bidi:isolate; color:var(--ink); font-weight:600;}
+  .deadline-chip{
+    display:inline-block; margin-top:10px; font-size:12.5px; color:var(--ink2);
+    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12);
+    border-radius:8px; padding:2px 8px;
+  }
+  .course .actions{display:flex; gap:8px; margin-top:14px; align-items:center;}
+  .btn{
+    font-family:var(--font-he); font-weight:800; font-size:14.5px;
+    color:var(--ink); background:color-mix(in srgb, var(--c) 14%, transparent);
+    border:2px solid var(--c); border-radius:10px;
+    padding:9px 14px; cursor:pointer;
+    box-shadow:0 0 10px color-mix(in srgb, var(--c) 35%, transparent);
+    transition:transform .06s ease, background .15s ease;
+  }
+  .btn:hover{background:color-mix(in srgb, var(--c) 28%, transparent);}
+  .btn:active{transform:translateY(2px);}
+  .btn:disabled{opacity:.35; cursor:default; box-shadow:none;}
+  .btn-ghost{
+    background:transparent; border:1px dashed var(--ink3); color:var(--ink2);
+    border-radius:10px; font-size:12.5px; padding:8px 10px; cursor:pointer;
+  }
+  .btn-ghost:hover{color:var(--ink); border-color:var(--ink2);}
+  .course.completed{border-color:var(--green); box-shadow:0 0 20px rgba(43,217,124,.5), inset 0 0 26px rgba(0,0,0,.4);}
+  .course .done-ribbon{
+    display:none; position:absolute; top:12px; inset-inline-start:-34px;
+    transform:rotate(45deg);
+    background:var(--green); color:#04180c; font-weight:800; font-size:12px;
+    padding:3px 40px; letter-spacing:1px;
+  }
+  .course.completed .done-ribbon{display:block;}
+
+  /* ---------- arcade ---------- */
+  .arcade{margin-top:26px;}
+  .arcade-head{text-align:center; margin-bottom:12px;}
+  .arcade-head h2{
+    margin:0; font-family:var(--font-pixel); font-size:clamp(14px,2.6vw,20px);
+    color:var(--magenta); text-shadow:0 0 10px rgba(255,79,216,.8), 0 0 30px rgba(255,79,216,.4);
+    line-height:1.8;
+  }
+  .arcade-head p{margin:4px 0 0; color:var(--ink2); font-size:14px;}
+  .tabs{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:14px 0;}
+  .tab{
+    font-family:var(--font-he); font-weight:800; font-size:14.5px;
+    background:transparent; color:var(--ink2);
+    border:2px solid var(--ink3); border-radius:12px; padding:9px 16px; cursor:pointer;
+  }
+  .tab.active{
+    color:var(--ink); border-color:var(--magenta);
+    box-shadow:0 0 12px rgba(255,79,216,.5);
+    background:color-mix(in srgb, var(--magenta) 12%, transparent);
+  }
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .arcade-box{
+    border:1px solid var(--magenta); border-radius:16px;
+    background:linear-gradient(180deg, #12123a 0%, var(--surface) 100%);
+    box-shadow:0 0 16px rgba(255,79,216,.25), inset 0 0 30px rgba(0,0,0,.45);
+    padding:16px; text-align:center;
+  }
+
+  /* pinball */
+  .pin-hud{
+    display:flex; gap:18px; justify-content:center; align-items:baseline; flex-wrap:wrap;
+    font-family:var(--font-pixel); font-size:12px; color:var(--ink); margin-bottom:10px;
+  }
+  .pin-hud span{direction:ltr; unicode-bidi:isolate;}
+  .pin-hud .hud-label{font-family:var(--font-he); color:var(--ink3); font-size:12px;}
+  #pinCanvas{
+    width:min(100%, 380px); aspect-ratio:2/3;
+    background:#080820; border:2px solid var(--cyan); border-radius:14px;
+    box-shadow:0 0 18px rgba(0,229,255,.35), inset 0 0 40px rgba(0,0,0,.6);
+    touch-action:none; display:block; margin:0 auto;
+  }
+  .pin-controls{display:flex; gap:10px; justify-content:center; margin-top:12px; flex-wrap:wrap;}
+  .pin-hint{color:var(--ink3); font-size:12.5px; margin-top:8px;}
+  .flip-btn{min-width:120px;}
+
+  /* bubbles */
+  .bubble-stats{color:var(--ink2); font-size:14px; margin-bottom:12px;}
+  .bubble-stats .num{color:var(--ink); font-weight:800; direction:ltr; unicode-bidi:isolate;}
+  .bubble-grid{
+    display:grid; grid-template-columns:repeat(9, 1fr); gap:8px;
+    max-width:460px; margin:0 auto; user-select:none;
+  }
+  .bubble{
+    aspect-ratio:1; border-radius:50%; cursor:pointer; border:1px solid rgba(120,180,255,.35);
+    background:radial-gradient(circle at 32% 30%, rgba(255,255,255,.45) 0%, rgba(120,180,255,.18) 35%, rgba(20,32,80,.9) 78%);
+    box-shadow:inset -2px -3px 6px rgba(0,0,0,.5), 0 0 6px rgba(120,180,255,.15);
+    padding:0;
+  }
+  .bubble:hover{filter:brightness(1.25);}
+  .bubble.popped{
+    background:#0c0c22; border:1px dashed rgba(120,180,255,.2);
+    box-shadow:inset 0 3px 8px rgba(0,0,0,.8);
+    animation:pop .18s ease;
+    cursor:default;
+  }
+  @keyframes pop{ 0%{transform:scale(1.25);} 100%{transform:scale(.94);} }
+
+  /* breathing */
+  .breath-stage{height:300px; display:flex; align-items:center; justify-content:center; position:relative;}
+  .breath-circle{
+    width:130px; height:130px; border-radius:50%;
+    background:radial-gradient(circle at 35% 32%, rgba(255,255,255,.35), rgba(43,217,124,.55) 45%, rgba(10,40,25,.9));
+    border:2px solid var(--green);
+    box-shadow:0 0 24px rgba(43,217,124,.55), inset 0 0 30px rgba(0,0,0,.35);
+    transform:scale(1);
+  }
+  .breath-phase{font-size:22px; font-weight:800; margin-top:6px; min-height:32px;}
+  .breath-hint{color:var(--ink2); font-size:14.5px; min-height:22px;}
+  .breath-count{
+    font-family:var(--font-pixel); font-size:26px; color:var(--green);
+    text-shadow:0 0 10px rgba(43,217,124,.8);
+    direction:ltr; unicode-bidi:isolate; min-height:34px; margin-top:6px;
+  }
+  .breath-cycles{color:var(--ink3); font-size:13px; margin-top:8px;}
+
+  /* toast + footer */
+  .toast{
+    position:fixed; top:16px; right:50%; transform:translateX(50%) translateY(-90px);
+    z-index:80; background:#12123a; color:var(--ink);
+    border:1px solid var(--green); border-radius:12px;
+    box-shadow:0 0 16px rgba(43,217,124,.5);
+    padding:10px 20px; font-weight:800; font-size:15.5px;
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+    opacity:0; pointer-events:none; max-width:88vw; text-align:center;
+  }
+  .toast.show{transform:translateX(50%) translateY(0); opacity:1;}
+  #confettiCanvas{position:fixed; inset:0; z-index:70; pointer-events:none;}
+  footer{margin-top:34px; text-align:center; color:var(--ink3); font-size:13px; line-height:1.8;}
+  footer .ver{color:var(--ink2);}
+
+  @media (max-width:900px){
+    .meters{grid-template-columns:1fr;}
+    .courses{grid-template-columns:1fr;}
+    .bubble-grid{grid-template-columns:repeat(7,1fr);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="lights"></div>
+<div class="crt" aria-hidden="true"></div>
+<canvas id="confettiCanvas" aria-hidden="true"></canvas>
+<div class="toast" id="toast" role="status"></div>
+<div class="wrap">
+<header>
+  <button class="mute-btn" id="muteBtn" aria-label="השתקה">🔊</button>
+  <h1>🕹️ מבצע: סוף שנה 🕹️</h1>
+  <p class="sub">מוריה נגד ערימת ההגשות · שלושת הקורסים האחרונים של מחזור <b>2025/2026</b> · תעקבו, תפרגנו, תשלחו קפה ☕</p>
+</header>
+
+<section class="hero" aria-label="מצב כללי">
+  <div class="hero-label">הגשות שנשארו לבדוק עד החופש</div>
+  <div class="hero-num" id="heroLeft">28</div>
+  <div class="hero-sub">מתוך <span class="num" id="heroTotal">31</span> בסך הכל · כבר נבדקו <span class="num" id="heroDone">3</span> 🎉</div>
+  <div class="hero-sub" id="lastUpdated" style="font-size:13px; color:var(--ink3);"></div>
+  <div class="overall-track" role="progressbar" aria-label="התקדמות כללית" aria-valuemin="0" aria-valuemax="100" aria-valuenow="10" id="overallBar">
+    <div class="overall-fill" id="overallFill"></div>
+  </div>
+  <div class="overall-pct" id="overallPct">10%</div>
+  <div class="milestone" id="milestone"></div>
+</section>
+
+<section class="meters" aria-label="מד סטרס ודדליינים">
+  <div class="panel gauge-wrap" style="--c:var(--orange)">
+    <h3><span class="dot"></span>מד הסטרס הרשמי</h3>
+    <svg viewBox="0 0 200 120" aria-hidden="true">
+      <defs>
+        <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#2bd97c"/>
+          <stop offset="40%" stop-color="#ffd93d"/>
+          <stop offset="70%" stop-color="#ff9f1c"/>
+          <stop offset="100%" stop-color="#ff4757"/>
+        </linearGradient>
+      </defs>
+      <path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="#1c1c46" stroke-width="20" stroke-linecap="round"/>
+      <path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="url(#gaugeGrad)" stroke-width="14" stroke-linecap="round"/>
+      <g id="needleG">
+        <line x1="100" y1="110" x2="100" y2="42" stroke="#f2f4ff" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="100" cy="110" r="7" fill="#f2f4ff"/>
+      </g>
+    </svg>
+    <div class="gauge-ends" dir="ltr"><span>🏖️ חופש</span><span>על הקצה 🔥</span></div>
+    <div class="stress-val" id="stressVal">90%</div>
+    <div class="stress-label" id="stressLabel"></div>
+  </div>
+
+  <div class="panel" style="--c:var(--cyan)">
+    <h3><span class="dot"></span>דדליין 1</h3>
+    <div class="count-title">להספיק לבדוק עד 4 באוגוסט:</div>
+    <div class="count-course">יסודות ניהול השיווק</div>
+    <div class="count-digits" id="cd1"></div>
+    <div class="count-date">🗓️ יום שלישי, 4.8.2026</div>
+  </div>
+
+  <div class="panel" style="--c:var(--magenta)">
+    <h3><span class="dot"></span>דדליין 2</h3>
+    <div class="count-title">להספיק לבדוק עד 21 באוגוסט:</div>
+    <div class="count-course">שני הסמינרים בשיווק</div>
+    <div class="count-digits" id="cd2"></div>
+    <div class="count-date">🗓️ יום שישי, 21.8.2026</div>
+  </div>
+</section>
+
+<section class="courses" id="courses" aria-label="הקורסים"></section>
+
+<section class="arcade" aria-label="פינת הרגעה">
+  <div class="arcade-head">
+    <h2>* פינת ההרגעה *</h2>
+    <p>לחוצים מהצפייה? תרגיעו כאן. מוריה כבר עושה את זה בין הגשה להגשה 😌</p>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-panel="pinball" role="tab">🕹️ פינבול רטרו</button>
+    <button class="tab" data-panel="bubbles" role="tab">🫧 ניילון בועות</button>
+    <button class="tab" data-panel="breath" role="tab">🌬️ דקה של נשימה</button>
+  </div>
+
+  <div class="tab-panel active" id="panel-pinball" role="tabpanel">
+    <div class="arcade-box">
+      <div class="pin-hud">
+        <span class="hud-label">ניקוד</span><span id="pinScore">0</span>
+        <span class="hud-label">שיא</span><span id="pinHigh">0</span>
+        <span class="hud-label">כדורים</span><span id="pinBalls">●●●</span>
+      </div>
+      <canvas id="pinCanvas" width="400" height="600"></canvas>
+      <div class="pin-controls">
+        <button class="btn flip-btn" id="flipRightBtn" style="--c:var(--cyan)">פליפר ימני ⟩</button>
+        <button class="btn" id="launchBtn" style="--c:var(--yellow)">🚀 שיגור</button>
+        <button class="btn flip-btn" id="flipLeftBtn" style="--c:var(--cyan)">⟨ פליפר שמאלי</button>
+      </div>
+      <div class="pin-hint">במחשב: חיצים ⟵ ⟶ לפליפרים, רווח לשיגור. בנייד: הכפתורים או נגיעה בחצי המסך.</div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="panel-bubbles" role="tabpanel">
+    <div class="arcade-box" style="border-color:var(--cyan); box-shadow:0 0 16px rgba(0,229,255,.25), inset 0 0 30px rgba(0,0,0,.45);">
+      <div class="bubble-stats">פוצצו <span class="num" id="popCount">0</span> מתוך <span class="num" id="popTotal">63</span> בועות · אפשר גם לגרור על פני הגיליון 🫧</div>
+      <div class="bubble-grid" id="bubbleGrid"></div>
+      <div style="margin-top:14px;">
+        <button class="btn" id="bubbleReset" style="--c:var(--cyan)">🔄 גיליון חדש</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="panel-breath" role="tabpanel">
+    <div class="arcade-box" style="border-color:var(--green); box-shadow:0 0 16px rgba(43,217,124,.25), inset 0 0 30px rgba(0,0,0,.45);">
+      <div class="breath-stage"><div class="breath-circle" id="breathCircle"></div></div>
+      <div class="breath-phase" id="breathPhase">נשימת 4-7-8</div>
+      <div class="breath-hint" id="breathHint">ארבע שניות שאיפה, שבע החזקה, שמונה נשיפה. פלא על העצבים.</div>
+      <div class="breath-count" id="breathCount"></div>
+      <div style="margin-top:10px;">
+        <button class="btn" id="breathBtn" style="--c:var(--green)">▶ התחלה</button>
+      </div>
+      <div class="breath-cycles" id="breathCycles"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ver" id="connChip">🟡 מתחבר למסד הנתונים...</div>
+  <div id="modeNote">הנתונים כאן חיים: כשמוריה מסמנת הגשה שנבדקה, המסך של כולם מתעדכן תוך שנייה. כפתורי הפרגון הם לקונפטי ולעידוד 😉</div>
+  <div style="margin-top:10px;">
+    <button class="btn-ghost" id="adminBtn">👑 כניסה למוריה</button>
+    <span id="adminStatus" style="margin-inline-start:8px;"></span>
+  </div>
+  <div style="margin-top:8px;">נבנה באהבה, בקפאין ובקצת לחץ 💛</div>
+</footer>
+
+<script>
+'use strict';
+/* ===== data (official baseline, updated by Moria) ===== */
+const COURSES = [
+  {id:'yesodot',    name:'יסודות ניהול השיווק', tag:'בבדיקה עכשיו ✍️',        total:13, done:3, color:'#00e5ff', deadlineLabel:'4 באוגוסט'},
+  {id:'seminarIl',  name:'סמינר בשיווק',        tag:'התוכנית הישראלית',       total:11, done:0, color:'#ff4fd8', deadlineLabel:'21 באוגוסט'},
+  {id:'seminarInt', name:'Marketing Seminar',   tag:'התוכנית הבינלאומית',     total:7,  done:0, color:'#ffd93d', deadlineLabel:'21 באוגוסט'},
+];
+const DEADLINE_1 = new Date('2026-08-04T23:59:59+03:00');
+const DEADLINE_2 = new Date('2026-08-21T23:59:59+03:00');
+
+const CHEERS = [
+  'עוד אחת מאחוריך! 💪', 'את מכונה!! 🔥', 'הקפה הזה משתלם ☕',
+  'ההגשה לא ידעה מה פגע בה 😎', 'שומעים? זה קול החופש מתקרב 🌊',
+  'ציון הוגש, נשמה שוחררה ✨', 'הגשה אחת פחות, מרגריטה אחת קרובה יותר 🍹',
+  'תואר שני בבדיקת תארים שניים 🎓', 'איזו מרצה. איזו אלופה. 👑'
+];
+
+const $ = id => document.getElementById(id);
+
+/* mode: 'local' (no DB connection, clicks are local fun) | 'live-viewer' (live data, cheer only) | 'live-admin' (Moria, writes to DB) */
+let MODE = 'local';
+let WRITE_HOOK = null;
+let updatedTs = null;
+
+/* ===== sounds ===== */
+let actx = null, muted = false;
+function ac(){
+  if(!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+  if(actx.state === 'suspended') actx.resume();
+  return actx;
+}
+function tone(freq, dur=0.09, type='square', gain=0.04, slideTo=null){
+  if(muted) return;
+  try{
+    const ctx = ac();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type; o.frequency.setValueAtTime(freq, ctx.currentTime);
+    if(slideTo) o.frequency.exponentialRampToValueAtTime(Math.max(slideTo,1), ctx.currentTime + dur);
+    g.gain.setValueAtTime(gain, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+    o.connect(g).connect(ctx.destination);
+    o.start(); o.stop(ctx.currentTime + dur + 0.02);
+  }catch(e){}
+}
+function chime(){ tone(523,.09,'square',.05); setTimeout(()=>tone(659,.09,'square',.05),90); setTimeout(()=>tone(784,.16,'square',.05),180); }
+function fanfare(){ [523,659,784,1047,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.12,'square',.05),i*110)); }
+function popSnd(){
+  if(muted) return;
+  try{
+    const ctx = ac();
+    const b = ctx.createBuffer(1, Math.floor(ctx.sampleRate*0.05), ctx.sampleRate);
+    const d = b.getChannelData(0);
+    for(let i=0;i<d.length;i++) d[i] = (Math.random()*2-1)*Math.pow(1-i/d.length,2);
+    const s = ctx.createBufferSource(); s.buffer = b;
+    const f = ctx.createBiquadFilter(); f.type='bandpass'; f.frequency.value = 900+Math.random()*800; f.Q.value=1.2;
+    const g = ctx.createGain(); g.gain.value = .6;
+    s.connect(f); f.connect(g); g.connect(ctx.destination); s.start();
+  }catch(e){}
+}
+$('muteBtn').addEventListener('click', ()=>{
+  muted = !muted;
+  $('muteBtn').textContent = muted ? '🔇' : '🔊';
+  if(!muted) tone(660,.08,'square',.05);
+});
+
+/* ===== confetti ===== */
+const cCanvas = $('confettiCanvas'), cCtx = cCanvas.getContext('2d');
+let parts = [], confettiRunning = false;
+const CONF_COLORS = ['#00e5ff','#ff4fd8','#ffd93d','#2bd97c','#ffffff'];
+function sizeConfetti(){ cCanvas.width = innerWidth; cCanvas.height = innerHeight; }
+addEventListener('resize', sizeConfetti); sizeConfetti();
+function burst(x, y, n=34, power=7){
+  for(let i=0;i<n;i++){
+    const a = Math.random()*Math.PI*2, sp = (0.35+Math.random())*power;
+    parts.push({x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp-3.2, rot:Math.random()*6.28, vr:(Math.random()-.5)*.35,
+      w:5+Math.random()*6, h:3+Math.random()*5, life:70+Math.random()*45, c:CONF_COLORS[i%CONF_COLORS.length]});
+  }
+  if(!confettiRunning){ confettiRunning = true; requestAnimationFrame(confettiTick); }
+}
+function confettiTick(){
+  cCtx.clearRect(0,0,cCanvas.width,cCanvas.height);
+  parts = parts.filter(p=>p.life>0 && p.y<cCanvas.height+30);
+  for(const p of parts){
+    p.x+=p.vx; p.y+=p.vy; p.vy+=0.13; p.vx*=0.992; p.rot+=p.vr; p.life--;
+    cCtx.save(); cCtx.translate(p.x,p.y); cCtx.rotate(p.rot);
+    cCtx.globalAlpha = Math.max(0, Math.min(1, p.life/40));
+    cCtx.fillStyle = p.c; cCtx.fillRect(-p.w/2,-p.h/2,p.w,p.h); cCtx.restore();
+  }
+  if(parts.length){ requestAnimationFrame(confettiTick); }
+  else { confettiRunning = false; cCtx.clearRect(0,0,cCanvas.width,cCanvas.height); }
+}
+function burstAtEl(el, n=30){
+  const r = el.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height/2, n);
+}
+
+/* ===== toast ===== */
+let toastTimer = null;
+function toast(msg, ms=2600){
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), ms);
+}
+
+/* ===== course cards ===== */
+function buildCards(){
+  $('courses').innerHTML = COURSES.map(c=>`
+    <article class="course panel" style="--c:${c.color}" id="card-${c.id}">
+      <div class="done-ribbon">נקי! ✨</div>
+      <span class="tag">${c.tag}</span>
+      <h3>${c.name}</h3>
+      <div class="left-num" id="left-${c.id}"></div>
+      <div class="left-word">הגשות נשארו לבדוק</div>
+      <div class="track"><div class="fill" id="fill-${c.id}"></div></div>
+      <div class="nums">
+        <span>נבדקו: <span class="num" id="done-${c.id}"></span></span>
+        <span>סה"כ: <span class="num">${c.total}</span></span>
+      </div>
+      <div><span class="deadline-chip">🗓️ דדליין: ${c.deadlineLabel}</span></div>
+      <div class="actions">
+        <button class="btn" id="btn-${c.id}" style="--c:${c.color}">✅ סיימתי עוד אחת!</button>
+        <button class="btn-ghost" id="undo-${c.id}" aria-label="ביטול">אופס, בעצם לא 😅</button>
+      </div>
+    </article>`).join('');
+  for(const c of COURSES){
+    $('btn-'+c.id).addEventListener('click', e=>addOne(c, e.currentTarget));
+    $('undo-'+c.id).addEventListener('click', ()=>undoOne(c));
+  }
+}
+function totals(){
+  const total = COURSES.reduce((s,c)=>s+c.total,0);
+  const done  = COURSES.reduce((s,c)=>s+c.done,0);
+  return {total, done, left: total-done};
+}
+function milestoneText(pct, left){
+  if(left===0) return 'זהו. נגמר. תשפ"ו מאחורינו. חופש אמיתי! 🎓🎉🍾';
+  if(pct>=80) return 'נגיעות אחרונות! כבר אפשר לארוז את הבגד ים 🏁';
+  if(pct>=55) return 'עברנו את האמצע! הכי גרוע מאחורינו 💪';
+  if(pct>=30) return 'יש קצב! הערימה רשמית מתכווצת ☕';
+  if(pct>=10) return 'יצאנו לדרך. תחזיקו לה אצבעות 🤞';
+  return 'רק התחלנו. שלחו חטיפים 🙏';
+}
+function stressLabel(s){
+  if(s<=0)   return '🎉 חופש!!! נתראה בספטמבר';
+  if(s<0.25) return '🏖️ כמעט שם, כבר מריחים את הים';
+  if(s<0.5)  return '🌅 רואים את הסוף מכאן!';
+  if(s<0.75) return '😮‍💨 עמוק בפנים, אבל שורדת';
+  return '🔥 על הקצה. שלחו שוקולד.';
+}
+function render(){
+  const {total, done, left} = totals();
+  const pct = Math.round(done/total*100);
+  $('heroLeft').textContent = left;
+  $('heroTotal').textContent = total;
+  $('heroDone').textContent = done;
+  $('overallFill').style.width = pct+'%';
+  $('overallBar').setAttribute('aria-valuenow', pct);
+  $('overallPct').textContent = pct+'%';
+  $('milestone').textContent = milestoneText(pct, left);
+  const s = left/total;
+  $('stressVal').textContent = Math.round(s*100)+'%';
+  $('stressLabel').textContent = stressLabel(s);
+  document.getElementById('needleG').style.transform = 'rotate('+(-90+s*180)+'deg)';
+  for(const c of COURSES){
+    const cl = c.total - c.done;
+    $('left-'+c.id).textContent = cl;
+    $('done-'+c.id).textContent = c.done;
+    $('fill-'+c.id).style.width = Math.round(c.done/c.total*100)+'%';
+    const card = $('card-'+c.id), btn = $('btn-'+c.id);
+    card.classList.toggle('completed', cl===0);
+    btn.disabled = cl===0;
+    if(cl===0){ btn.textContent = '🎉 הכל נבדק!'; }
+    else { btn.textContent = MODE==='live-viewer' ? '🎉 פרגון למוריה!' : '✅ סיימתי עוד אחת!'; }
+    $('undo-'+c.id).style.display = MODE==='live-viewer' ? 'none' : '';
+  }
+}
+function renderUpdated(){
+  if(!updatedTs){ $('lastUpdated').textContent = ''; return; }
+  const d = new Date(updatedTs);
+  const fmt = new Intl.DateTimeFormat('he-IL', {day:'numeric', month:'numeric', hour:'2-digit', minute:'2-digit'});
+  $('lastUpdated').textContent = 'עדכון רשמי אחרון: ' + fmt.format(d);
+}
+function setConn(state){
+  const chip = $('connChip');
+  if(state==='live'){ chip.textContent = '🟢 מחובר חי למסד הנתונים'; }
+  else if(state==='empty'){ chip.textContent = '🟢 מחובר למסד (ממתין לנתונים ראשונים)'; }
+  else { chip.textContent = '🟡 אין חיבור למסד הנתונים, מוצגים נתוני בסיס'; }
+}
+let lastKnown = null;
+function applyLive(data){
+  const prev = lastKnown;
+  for(const c of COURSES){
+    if(typeof data[c.id] === 'number'){
+      c.done = Math.max(0, Math.min(c.total, data[c.id]));
+    }
+  }
+  updatedTs = (typeof data.updated === 'number') ? data.updated : null;
+  renderUpdated();
+  render();
+  if(prev){
+    for(const c of COURSES){
+      const before = (prev[c.id] ?? 0), now = c.done;
+      if(now > before){
+        burst(innerWidth/2, innerHeight*0.3, 45, 8);
+        if(now === c.total){
+          fanfare();
+          toast('🏆 "'+c.name+'" נבדק עד הסוף!!! קורס שלם ירד מהגב!');
+          burst(innerWidth/2, innerHeight/3, 120, 10);
+        } else if(MODE === 'live-viewer'){
+          chime();
+          toast('מוריה סיימה לבדוק עוד אחת! 🎉');
+        }
+      }
+    }
+    if(totals().left === 0){
+      let k = 0;
+      const iv = setInterval(()=>{
+        burst(Math.random()*innerWidth, innerHeight*0.25+Math.random()*innerHeight*0.3, 90, 10);
+        if(++k>7) clearInterval(iv);
+      }, 350);
+      fanfare(); setTimeout(fanfare, 700);
+    }
+  }
+  lastKnown = {};
+  COURSES.forEach(c=>{ lastKnown[c.id] = c.done; });
+}
+function addOne(c, btn){
+  if(MODE === 'live-admin'){
+    if(c.done >= c.total) return;
+    burstAtEl(btn, 26);
+    chime();
+    toast(CHEERS[Math.floor(Math.random()*CHEERS.length)]);
+    if(WRITE_HOOK) WRITE_HOOK(c.id, +1); // numbers update for everyone via the live listener
+    return;
+  }
+  if(MODE === 'live-viewer'){
+    burstAtEl(btn, 26);
+    chime();
+    toast('שלחת למוריה בוסט של כוח! 💌');
+    return;
+  }
+  // local fallback mode (no DB connection)
+  if(c.done >= c.total) return;
+  c.done++;
+  render();
+  burstAtEl(btn, 26);
+  const {left} = totals();
+  if(c.done === c.total){
+    fanfare();
+    toast('🏆 "'+c.name+'" נבדק עד הסוף!!! קורס שלם ירד מהגב!');
+    burst(innerWidth/2, innerHeight/3, 120, 10);
+  } else {
+    chime();
+    toast(CHEERS[Math.floor(Math.random()*CHEERS.length)]);
+  }
+  if(left===0){
+    let k=0;
+    const iv = setInterval(()=>{
+      burst(Math.random()*innerWidth, innerHeight*0.25+Math.random()*innerHeight*0.3, 90, 10);
+      if(++k>7) clearInterval(iv);
+    }, 350);
+    fanfare(); setTimeout(fanfare, 700);
+  }
+}
+function undoOne(c){
+  if(MODE === 'live-viewer') return;
+  if(c.done <= 0) return;
+  if(MODE === 'live-admin'){
+    if(WRITE_HOOK) WRITE_HOOK(c.id, -1);
+    tone(300,.12,'triangle',.05,180);
+    toast('מחזירות אחת לערימה... קורה לכולן 😅');
+    return;
+  }
+  c.done--;
+  render();
+  tone(300,.12,'triangle',.05,180);
+  toast('מחזירות אחת לערימה... קורה לכולן 😅');
+}
+
+/* ===== deadline countdowns ===== */
+function fmtCountdown(target){
+  const ms = target - Date.now();
+  if(ms <= 0) return null;
+  const s = Math.floor(ms/1000);
+  const d = Math.floor(s/86400);
+  const h = String(Math.floor(s%86400/3600)).padStart(2,'0');
+  const m = String(Math.floor(s%3600/60)).padStart(2,'0');
+  const sec = String(s%60).padStart(2,'0');
+  return {d, clock: h+':'+m+':'+sec};
+}
+function tickCountdowns(){
+  const c1 = fmtCountdown(DEADLINE_1), c2 = fmtCountdown(DEADLINE_2);
+  $('cd1').innerHTML = c1 ? '<span dir="ltr">'+c1.d+'</span> ימים · <span dir="ltr">'+c1.clock+'</span>'
+                          : '<span class="count-passed">⌛ הדדליין עבר!</span>';
+  $('cd2').innerHTML = c2 ? '<span dir="ltr">'+c2.d+'</span> ימים · <span dir="ltr">'+c2.clock+'</span>'
+                          : '<span class="count-passed">⌛ הדדליין עבר!</span>';
+}
+setInterval(tickCountdowns, 1000);
+
+/* ===== tabs ===== */
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-'+tab.dataset.panel).classList.add('active');
+    if(tab.dataset.panel === 'pinball'){ Pinball.start(); } else { Pinball.stop(); }
+    if(tab.dataset.panel === 'breath' && !breathRunning){ /* stays idle until started */ }
+  });
+});
+
+/* ===== bubble wrap ===== */
+const BUBBLE_N = 63;
+let popped = 0;
+function buildBubbles(){
+  popped = 0;
+  const g = $('bubbleGrid');
+  g.innerHTML = '';
+  for(let i=0;i<BUBBLE_N;i++){
+    const b = document.createElement('button');
+    b.className = 'bubble';
+    b.setAttribute('aria-label','בועה');
+    b.addEventListener('pointerdown', ()=>popBubble(b));
+    b.addEventListener('pointerenter', e=>{ if(e.buttons & 1) popBubble(b); });
+    g.appendChild(b);
+  }
+  $('popCount').textContent = 0;
+  $('popTotal').textContent = BUBBLE_N;
+}
+function popBubble(b){
+  if(b.classList.contains('popped')) return;
+  b.classList.add('popped');
+  popped++;
+  $('popCount').textContent = popped;
+  popSnd();
+  if(popped === BUBBLE_N){
+    toast('אהההה. איזה כיף היה. 😌 עוד גיליון?');
+    burst(innerWidth/2, innerHeight/2, 70, 8);
+    chime();
+  }
+}
+$('bubbleReset').addEventListener('click', ()=>{ buildBubbles(); tone(440,.07,'triangle',.05); });
+
+/* ===== guided breathing 4-7-8 ===== */
+const PHASES = [
+  {name:'שאיפה 🌬️', hint:'שאפי אוויר לאט ועמוק דרך האף', dur:4, scale:1.55},
+  {name:'החזקה ✨', hint:'עצרי. תני לאוויר לשבת רגע', dur:7, scale:1.55},
+  {name:'נשיפה 😮‍💨', hint:'שחררי הכל לאט לאט דרך הפה', dur:8, scale:1}
+];
+let breathRunning = false, breathTimer = null, phaseIdx = 0, phaseLeft = 0, cycles = 0;
+function breathStep(){
+  phaseLeft--;
+  if(phaseLeft <= 0){
+    phaseIdx = (phaseIdx+1) % PHASES.length;
+    if(phaseIdx === 0){ cycles++; $('breathCycles').textContent = 'מחזורים שהושלמו: '+cycles; }
+    startPhase();
+    return;
+  }
+  $('breathCount').textContent = phaseLeft;
+}
+function startPhase(){
+  const p = PHASES[phaseIdx];
+  phaseLeft = p.dur;
+  $('breathPhase').textContent = p.name;
+  $('breathHint').textContent = p.hint;
+  $('breathCount').textContent = p.dur;
+  const c = $('breathCircle');
+  c.style.transition = 'transform '+p.dur+'s ease-in-out';
+  c.style.transform = 'scale('+p.scale+')';
+}
+$('breathBtn').addEventListener('click', ()=>{
+  breathRunning = !breathRunning;
+  if(breathRunning){
+    $('breathBtn').textContent = '⏸ עצירה';
+    phaseIdx = 0; startPhase();
+    breathTimer = setInterval(breathStep, 1000);
+  } else {
+    $('breathBtn').textContent = '▶ התחלה';
+    clearInterval(breathTimer);
+    const c = $('breathCircle');
+    c.style.transition = 'transform 1s ease'; c.style.transform = 'scale(1)';
+    $('breathPhase').textContent = 'נשימת 4-7-8';
+    $('breathHint').textContent = 'ארבע שניות שאיפה, שבע החזקה, שמונה נשיפה. פלא על העצבים.';
+    $('breathCount').textContent = '';
+  }
+});
+
+/* ===== init ===== */
+buildCards();
+render();
+tickCountdowns();
+buildBubbles();
+setInterval(renderUpdated, 60000);
+setTimeout(()=>{ if(MODE==='local' && $('connChip').textContent.indexOf('מתחבר')>=0) setConn('offline'); }, 8000);
+
+/* bridge for the Firebase module script */
+window.DASH = {
+  COURSES, totals, render, applyLive, setConn, toast, burst, burstAtEl, chime, fanfare,
+  setMode: m => { MODE = m; render(); },
+  getMode: () => MODE,
+  setWriteHook: f => { WRITE_HOOK = f; },
+};
+
+/* ===== retro pinball ===== */
+const Pinball = (function(){
+  const cv = $('pinCanvas'), ctx = cv.getContext('2d');
+  const W = 400, H = 600, R = 9, GRAV = 0.22, MAXV = 17;
+  const LANE_X = 356; // inner wall of launch lane
+
+  const SEGS = [
+    {x1:0,   y1:0,   x2:W,   y2:0  },      // top
+    {x1:0,   y1:0,   x2:0,   y2:H  },      // left wall
+    {x1:W,   y1:0,   x2:W,   y2:H  },      // outer right wall
+    {x1:0,   y1:60,  x2:50,  y2:0  },      // top-left corner cut
+    {x1:300, y1:20,  x2:W,   y2:130},      // top-right deflector (sends launched ball into field)
+    {x1:LANE_X, y1:140, x2:LANE_X, y2:586},// lane inner wall
+    {x1:LANE_X, y1:586, x2:W,   y2:586},   // lane floor (launcher rest)
+    {x1:0,   y1:455, x2:92,  y2:535},      // left guide to flipper
+    {x1:LANE_X, y1:455, x2:264, y2:535},   // right guide to flipper
+  ];
+  const BUMPERS = [
+    {x:110, y:190, r:26, c:'#00e5ff', flash:0},
+    {x:243, y:148, r:26, c:'#ff4fd8', flash:0},
+    {x:176, y:300, r:26, c:'#ffd93d', flash:0},
+  ];
+  const POSTS = [
+    {x:56,  y:420, r:9, c:'#2bd97c', flash:0},
+    {x:300, y:420, r:9, c:'#2bd97c', flash:0},
+  ];
+  const FLIP_LEN = 78, FLIP_W = 7;
+  const flippers = {
+    left:  {px:92,  py:548, rest:0.5,          active:-0.62,        a:0.5,          w:0, pressed:false, dir:1},
+    right: {px:264, py:548, rest:Math.PI-0.5,  active:Math.PI+0.62, a:Math.PI-0.5,  w:0, pressed:false, dir:-1},
+  };
+
+  let ball = {x:378, y:566, vx:0, vy:0};
+  let trail = [];
+  let state = 'ready'; // ready | play | over
+  let score = 0, high = 0, balls = 3;
+  let running = false, rafId = null;
+
+  function resetBallToLauncher(){
+    ball = {x:378, y:566, vx:0, vy:0};
+    trail = [];
+    state = 'ready';
+  }
+  function newGame(){
+    score = 0; balls = 3;
+    resetBallToLauncher();
+    updateHud();
+  }
+  function launch(){
+    if(state === 'over'){ newGame(); return; }
+    if(state === 'ready' || (state==='play' && ball.x > LANE_X && ball.y > 540 && Math.abs(ball.vy) < 1.5)){
+      ball.vy = -(16 + Math.random()*1.3);
+      ball.vx = 0;
+      state = 'play';
+      tone(180,.25,'sawtooth',.05,760);
+    }
+  }
+  function updateHud(){
+    $('pinScore').textContent = score;
+    $('pinHigh').textContent = high;
+    $('pinBalls').textContent = balls > 0 ? '●'.repeat(balls) : '-';
+  }
+
+  function closest(px, py, s){
+    const dx = s.x2-s.x1, dy = s.y2-s.y1;
+    const L2 = dx*dx+dy*dy || 1;
+    let t = ((px-s.x1)*dx + (py-s.y1)*dy) / L2;
+    t = Math.max(0, Math.min(1, t));
+    return {qx: s.x1+t*dx, qy: s.y1+t*dy, t};
+  }
+  function clampV(){
+    const sp = Math.hypot(ball.vx, ball.vy);
+    if(sp > MAXV){ ball.vx *= MAXV/sp; ball.vy *= MAXV/sp; }
+  }
+  function bounceCircle(cx, cy, cr, boost, minOut, pts, snd, obj){
+    const dx = ball.x-cx, dy = ball.y-cy;
+    const d = Math.hypot(dx,dy);
+    if(d < cr + R && d > 0.001){
+      const nx = dx/d, ny = dy/d;
+      ball.x = cx + nx*(cr+R+0.5); ball.y = cy + ny*(cr+R+0.5);
+      const dot = ball.vx*nx + ball.vy*ny;
+      if(dot < 0){ ball.vx -= 2*dot*nx; ball.vy -= 2*dot*ny; }
+      ball.vx *= boost; ball.vy *= boost;
+      const sp = Math.hypot(ball.vx, ball.vy);
+      if(sp < minOut){ ball.vx += nx*(minOut-sp); ball.vy += ny*(minOut-sp); }
+      score += pts; obj.flash = 9; snd(); updateHud();
+      clampV();
+    }
+  }
+  function collideSeg(s, rest){
+    const {qx, qy} = closest(ball.x, ball.y, s);
+    const dx = ball.x-qx, dy = ball.y-qy;
+    const d = Math.hypot(dx,dy);
+    if(d < R && d > 0.0001){
+      const nx = dx/d, ny = dy/d;
+      ball.x = qx + nx*(R+0.2); ball.y = qy + ny*(R+0.2);
+      const dot = ball.vx*nx + ball.vy*ny;
+      if(dot < 0){
+        ball.vx -= (1+rest)*dot*nx;
+        ball.vy -= (1+rest)*dot*ny;
+      }
+    }
+  }
+  function flipperEnds(f){
+    return {x1:f.px, y1:f.py, x2:f.px + FLIP_LEN*Math.cos(f.a), y2:f.py + FLIP_LEN*Math.sin(f.a)};
+  }
+  function collideFlipper(f){
+    const seg = flipperEnds(f);
+    const {qx, qy, t} = closest(ball.x, ball.y, seg);
+    const dx = ball.x-qx, dy = ball.y-qy;
+    const d = Math.hypot(dx,dy);
+    if(d < R + FLIP_W && d > 0.0001){
+      const nx = dx/d, ny = dy/d;
+      ball.x = qx + nx*(R+FLIP_W+0.2); ball.y = qy + ny*(R+FLIP_W+0.2);
+      const dot = ball.vx*nx + ball.vy*ny;
+      if(dot < 0){ ball.vx -= 1.82*dot*nx; ball.vy -= 1.82*dot*ny; }
+      if(Math.abs(f.w) > 0.02){
+        const kick = Math.min(13, Math.abs(f.w) * t * FLIP_LEN * 0.55) ;
+        ball.vx += nx*kick; ball.vy += ny*kick;
+        tone(240,.06,'triangle',.05);
+      }
+      clampV();
+    }
+  }
+
+  function physics(){
+    // flipper angles
+    for(const k of ['left','right']){
+      const f = flippers[k];
+      const target = f.pressed ? f.active : f.rest;
+      const prev = f.a;
+      const speed = 0.42 * (k==='left' ? (f.pressed?-1:1) : (f.pressed?1:-1));
+      if(Math.abs(target - f.a) <= Math.abs(speed)){ f.a = target; }
+      else { f.a += speed; }
+      f.w = f.a - prev;
+    }
+    if(state !== 'play') return;
+    const SUB = 3;
+    for(let i=0;i<SUB;i++){
+      ball.vy += GRAV/SUB; // gravity per substep
+      ball.x += ball.vx/SUB;
+      ball.y += ball.vy/SUB;
+      for(const s of SEGS) collideSeg(s, 0.78);
+      for(const b of BUMPERS) bounceCircle(b.x,b.y,b.r, 1.06, 7.5, 100, ()=>tone(620+Math.random()*300,.07,'square',.06), b);
+      for(const p of POSTS)   bounceCircle(p.x,p.y,p.r, 1.0, 5, 25, ()=>tone(950,.05,'square',.05), p);
+      collideFlipper(flippers.left);
+      collideFlipper(flippers.right);
+      clampV();
+    }
+    ball.vx *= 0.999; ball.vy *= 0.999;
+    // resting on launcher again
+    if(ball.x > LANE_X && ball.y > 560 && Math.abs(ball.vy) < 0.8 && Math.abs(ball.vx) < 0.5){
+      state = 'ready'; ball.x = 378; ball.y = 566; ball.vx = 0; ball.vy = 0;
+    }
+    // drain
+    if(ball.y > H + 24){
+      balls--;
+      tone(420,.5,'sawtooth',.06,70);
+      if(balls > 0){ resetBallToLauncher(); }
+      else {
+        high = Math.max(high, score);
+        state = 'over';
+      }
+      updateHud();
+    }
+    trail.push({x:ball.x, y:ball.y});
+    if(trail.length > 9) trail.shift();
+  }
+
+  function neonLine(s, color, width){
+    ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round';
+    ctx.shadowColor = color; ctx.shadowBlur = 10;
+    ctx.beginPath(); ctx.moveTo(s.x1,s.y1); ctx.lineTo(s.x2,s.y2); ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // walls + guides
+    for(const s of SEGS) neonLine(s, '#454594', 4);
+    // launcher spring
+    ctx.fillStyle = '#ffd93d'; ctx.shadowColor = '#ffd93d'; ctx.shadowBlur = 8;
+    ctx.fillRect(368, 574, 20, 8);
+    ctx.shadowBlur = 0;
+    // bumpers
+    for(const b of BUMPERS){
+      ctx.beginPath(); ctx.arc(b.x,b.y,b.r + (b.flash>0?3:0), 0, 6.29);
+      ctx.fillStyle = b.flash>0 ? b.c : '#10103a';
+      ctx.strokeStyle = b.c; ctx.lineWidth = 3;
+      ctx.shadowColor = b.c; ctx.shadowBlur = b.flash>0 ? 26 : 12;
+      ctx.fill(); ctx.stroke(); ctx.shadowBlur = 0;
+      ctx.fillStyle = b.flash>0 ? '#080820' : b.c;
+      ctx.font = '10px "Press Start 2P", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('100', b.x, b.y+1);
+      if(b.flash>0) b.flash--;
+    }
+    for(const p of POSTS){
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r + (p.flash>0?2:0), 0, 6.29);
+      ctx.fillStyle = p.flash>0 ? p.c : '#10103a';
+      ctx.strokeStyle = p.c; ctx.lineWidth = 2;
+      ctx.shadowColor = p.c; ctx.shadowBlur = p.flash>0 ? 18 : 8;
+      ctx.fill(); ctx.stroke(); ctx.shadowBlur = 0;
+      if(p.flash>0) p.flash--;
+    }
+    // flippers
+    for(const k of ['left','right']){
+      const f = flippers[k], e = flipperEnds(f);
+      neonLine({x1:e.x1,y1:e.y1,x2:e.x2,y2:e.y2}, '#00e5ff', FLIP_W*2);
+    }
+    // ball trail + ball
+    for(let i=0;i<trail.length;i++){
+      const tp = trail[i];
+      ctx.beginPath(); ctx.arc(tp.x, tp.y, R*(i/trail.length)*0.8, 0, 6.29);
+      ctx.fillStyle = 'rgba(242,244,255,'+(0.10*i/trail.length)+')';
+      ctx.fill();
+    }
+    if(state !== 'over'){
+      ctx.beginPath(); ctx.arc(ball.x, ball.y, R, 0, 6.29);
+      ctx.fillStyle = '#f2f4ff'; ctx.shadowColor = '#ffffff'; ctx.shadowBlur = 14; ctx.fill(); ctx.shadowBlur = 0;
+      ctx.beginPath(); ctx.arc(ball.x-3, ball.y-3, 2.6, 0, 6.29); ctx.fillStyle = '#ffffff'; ctx.fill();
+    }
+    if(state === 'ready'){
+      ctx.fillStyle = '#ffd93d';
+      ctx.font = '9px "Press Start 2P", monospace'; ctx.textAlign = 'center';
+      ctx.fillText('READY', 378, 528);
+    }
+    if(state === 'over'){
+      ctx.fillStyle = 'rgba(5,5,20,.82)'; ctx.fillRect(0,0,W,H);
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#ff4fd8'; ctx.shadowColor = '#ff4fd8'; ctx.shadowBlur = 16;
+      ctx.font = '22px "Press Start 2P", monospace';
+      ctx.fillText('GAME OVER', W/2, 250);
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = '#f2f4ff';
+      ctx.font = '13px "Press Start 2P", monospace';
+      ctx.fillText('SCORE ' + score, W/2, 300);
+      ctx.font = '800 17px Heebo, sans-serif';
+      ctx.fillText('לחצי על שיגור למשחק חדש', W/2, 345);
+    }
+  }
+  function loop(){
+    physics();
+    draw();
+    rafId = requestAnimationFrame(loop);
+  }
+  function start(){ if(!running){ running = true; updateHud(); rafId = requestAnimationFrame(loop); } }
+  function stop(){ running = false; if(rafId) cancelAnimationFrame(rafId); rafId = null; }
+  function press(side, on){
+    flippers[side].pressed = on;
+    if(on && state !== 'over') tone(170,.04,'triangle',.04);
+  }
+
+  // keyboard
+  addEventListener('keydown', e=>{
+    if(!document.getElementById('panel-pinball').classList.contains('active')) return;
+    if(e.repeat && e.code !== 'Space') return;
+    if(e.code === 'ArrowLeft'){ press('left', true); e.preventDefault(); }
+    else if(e.code === 'ArrowRight'){ press('right', true); e.preventDefault(); }
+    else if(e.code === 'Space'){ launch(); e.preventDefault(); }
+  });
+  addEventListener('keyup', e=>{
+    if(e.code === 'ArrowLeft') press('left', false);
+    if(e.code === 'ArrowRight') press('right', false);
+  });
+  // buttons (hold)
+  function bindHold(el, side){
+    el.addEventListener('pointerdown', e=>{ e.preventDefault(); press(side, true); });
+    ['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev, ()=>press(side, false)));
+  }
+  bindHold($('flipLeftBtn'), 'left');
+  bindHold($('flipRightBtn'), 'right');
+  $('launchBtn').addEventListener('click', launch);
+  // touch on canvas: half screen = that flipper
+  const activePointers = new Map();
+  cv.addEventListener('pointerdown', e=>{
+    e.preventDefault();
+    const rect = cv.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const side = x < 0.5 ? 'left' : 'right';
+    activePointers.set(e.pointerId, side);
+    press(side, true);
+    if(state !== 'play') launch();
+  });
+  ['pointerup','pointercancel','pointerleave'].forEach(ev=>cv.addEventListener(ev, e=>{
+    const side = activePointers.get(e.pointerId);
+    if(side){ press(side, false); activePointers.delete(e.pointerId); }
+  }));
+
+  newGame();
+  return {start, stop};
+})();
+
+Pinball.start();
+
+</script>
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import { getDatabase, ref, onValue, runTransaction, update, get } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDjKBUbGyBoBHCs5nWAV526aBsKXO5qiQ0",
+    authDomain: "moria-dashboards.firebaseapp.com",
+    databaseURL: "https://moria-dashboards-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "moria-dashboards",
+    storageBucket: "moria-dashboards.firebasestorage.app",
+    messagingSenderId: "997009646501",
+    appId: "1:997009646501:web:867ce77e59dc3b6c64fe4c"
+  };
+  const ADMIN_EMAIL = 'moria.inbar@gmail.com';
+  const BASELINE = { yesodot: 3, seminarIl: 0, seminarInt: 0 };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth(app);
+  const node = ref(db, 'countdown');
+  const D = window.DASH;
+
+  let connected = false;
+  let isAdmin = false;
+
+  onValue(node, snap => {
+    connected = true;
+    const data = snap.val();
+    if (data) {
+      D.applyLive(data);
+      D.setConn('live');
+    } else {
+      D.setConn('empty');
+      seedIfEmpty();
+    }
+    if (!isAdmin && D.getMode() !== 'live-viewer') D.setMode('live-viewer');
+  }, err => {
+    connected = false;
+    D.setConn('offline');
+    if (!isAdmin) D.setMode('local');
+    console.warn('RTDB read failed:', err && err.message);
+  });
+
+  async function seedIfEmpty() {
+    if (!isAdmin) return;
+    try {
+      const s = await get(node);
+      if (!s.exists()) {
+        await update(node, Object.assign({}, BASELINE, { updated: Date.now() }));
+        D.toast('נתוני הפתיחה נשמרו במסד ✅');
+      }
+    } catch (e) { /* rules not published yet */ }
+  }
+
+  const adminBtn = document.getElementById('adminBtn');
+  const adminStatus = document.getElementById('adminStatus');
+
+  onAuthStateChanged(auth, user => {
+    isAdmin = !!user && user.email === ADMIN_EMAIL;
+    if (isAdmin) {
+      D.setWriteHook(async (id, delta) => {
+        const c = D.COURSES.find(x => x.id === id);
+        try {
+          await runTransaction(ref(db, 'countdown/' + id), v => {
+            const cur = (typeof v === 'number') ? v : 0;
+            return Math.max(0, Math.min(c.total, cur + delta));
+          });
+          await update(node, { updated: Date.now() });
+        } catch (e) {
+          D.toast('העדכון נכשל 😕 בדקי שחוקי האבטחה פורסמו ושנכנסת עם החשבון הנכון');
+        }
+      });
+      D.setMode('live-admin');
+      adminBtn.textContent = '🚪 התנתקות';
+      adminStatus.textContent = '👑 מצב מוריה פעיל';
+      seedIfEmpty();
+    } else {
+      D.setWriteHook(null);
+      D.setMode(connected ? 'live-viewer' : 'local');
+      adminBtn.textContent = '👑 כניסה למוריה';
+      adminStatus.textContent = (user && user.email !== ADMIN_EMAIL)
+        ? 'החשבון ' + user.email + ' אינו מורשה לעדכן'
+        : '';
+    }
+  });
+
+  getRedirectResult(auth).catch(() => {});
+  adminBtn.addEventListener('click', async () => {
+    if (auth.currentUser) { await signOut(auth); return; }
+    try {
+      await signInWithPopup(auth, new GoogleAuthProvider());
+    } catch (e) {
+      const code = e && e.code ? e.code : '';
+      if (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-this-environment' || code === 'auth/cancelled-popup-request') {
+        try { await signInWithRedirect(auth, new GoogleAuthProvider()); return; } catch (e2) {}
+      }
+      D.toast('ההתחברות נכשלה' + (code ? ' (' + code + ')' : ''));
+    }
+  });
+</script>
+</div>
+</body>
+</html>

@@ -1285,7 +1285,7 @@
         <span class="course-pct" id="pct-${c.id}">0%</span>
       </div>
       <div class="course-name">${c.name}</div>
-      <div class="course-figure"><b class="course-left" id="left-${c.id}">0</b><small>נשאר לבדוק</small></div>
+      <div class="course-figure"><b class="course-left" id="left-${c.id}">0</b><small>נשארו לבדוק</small></div>
       <div class="bar"><i id="fill-${c.id}"></i></div>
       <div class="course-nums">נבדקו <b id="done-${c.id}">0</b> מתוך ${c.total}</div>
       <div class="admin-ctrls" id="ctrls-${c.id}" hidden>
@@ -1308,7 +1308,7 @@
         if (pct >= 80) return 'נגיעות אחרונות! כבר אפשר לארוז את הבגד ים 🏁';
         if (pct >= 55) return 'עברנו את האמצע! הכי גרוע מאחורינו 💪';
         if (pct >= 30) return 'יש קצב! הערימה רשמית מתכווצת ☕';
-        if (pct >= 10) return 'יצאנו לדרך. תחזיקו לה אצבעות 🤞';
+        if (pct >= 10) return 'יצאנו לדרך. תחזיקו אצבעות 🤞';
         return 'רק התחלנו. שלחו חטיפים 🙏';
       }
       function stressLabel(s) {
@@ -1316,7 +1316,7 @@
         if (s < 0.25) return '🏖️ כמעט שם, כבר מריחים את הים';
         if (s < 0.5) return '🌅 רואים את הסוף מכאן!';
         if (s < 0.75) return '😮‍💨 עמוק בפנים, אבל שורדת';
-        return '🔥 על הקצה. שלחו שוקולד.';
+        return '🔥 על הקצה. נדרש שוקולד.';
       }
       function countUp(el, to) {
         const from = parseInt(el.textContent, 10);
@@ -1363,7 +1363,7 @@
         if (!updatedTs) { $('lastUpdated').textContent = ''; return; }
         const d = new Date(updatedTs);
         const fmt = new Intl.DateTimeFormat('he-IL', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' });
-        $('lastUpdated').textContent = 'עדכון רשמי אחרון: ' + fmt.format(d);
+        $('lastUpdated').textContent = 'עדכון אחרון: ' + fmt.format(d);
       }
       function setConn(state) {
         const chip = $('connChip');
@@ -1434,8 +1434,8 @@
         bigConfetti();
         fanfare();
         const { total, left } = totals();
-        pingSlack('💛 מישהו שלח למוריה כוח דרך הספירה לאחור! נשאר לבדוק: ' + left + '/' + total + ' · חזק/ה 🔥');
-        toast(supportSent === 1 ? 'הכוח נשלח למוריה! 💛' : 'עוד מנת כוח בדרך אליה! 💪');
+        pingSlack('💛 מישהו שלח כוח דרך הספירה לאחור! נשארו לבדוק: ' + left + '/' + total + ' · חזק/ה 🔥');
+        toast(supportSent === 1 ? 'הכוח נשלח! 💛' : 'עוד מנת כוח בדרך! 💪');
         $('supportNote').textContent = 'שלחת ' + supportSent + ' מנות כוח 🙌 (אפשר עוד!)';
         const btn = $('supportBtn');
         btn.disabled = true;

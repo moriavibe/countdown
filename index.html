@@ -430,9 +430,29 @@
       min-height: 20px;
     }
 
-    .dl-count b,
-    .dl-count .clock {
+    .dl-count .cd-days {
+      display: block;
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--txt);
+    }
+
+    .dl-count .cd-days b {
+      font-size: 26px;
+      font-weight: 900;
       color: var(--c);
+      direction: ltr;
+      unicode-bidi: isolate;
+      text-shadow: 0 0 14px color-mix(in srgb, var(--c) 55%, transparent);
+    }
+
+    .dl-count .clock {
+      display: block;
+      margin-top: 3px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      color: var(--txt-dim);
       direction: ltr;
       unicode-bidi: isolate;
     }
@@ -1529,9 +1549,9 @@
       }
       function tickCountdowns() {
         const c1 = fmtCountdown(DEADLINE_1), c2 = fmtCountdown(DEADLINE_2);
-        $('cd1').innerHTML = c1 ? 'עוד <b>' + c1.d + '</b> ימים · <span class="clock">' + c1.clock + '</span>'
+        $('cd1').innerHTML = c1 ? '<span class="cd-days">עוד <b>' + c1.d + '</b> ימים</span><span class="clock">' + c1.clock + '</span>'
           : '<span class="dl-passed">⌛ הדדליין עבר!</span>';
-        $('cd2').innerHTML = c2 ? 'עוד <b>' + c2.d + '</b> ימים · <span class="clock">' + c2.clock + '</span>'
+        $('cd2').innerHTML = c2 ? '<span class="cd-days">עוד <b>' + c2.d + '</b> ימים</span><span class="clock">' + c2.clock + '</span>'
           : '<span class="dl-passed">⌛ הדדליין עבר!</span>';
       }
       setInterval(tickCountdowns, 1000);

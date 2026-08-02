@@ -13,8 +13,8 @@ Friends open the link and watch the numbers drop in real time. No installs, no r
 - **Deadline timers** ticking down to August 4 and August 21, 2026
 - **Send support**: one button lets visitors cheer Moria on — it fires confetti for them and pings her on Slack
 - **Retro pinball machine**: canvas-based, with flippers (arrow keys / space / touch), bumpers, and a high score
-- **Bubble wrap**: 63 poppable bubbles with proper pop sounds
-- **Guided 4-7-8 breathing** for a one-minute reset
+- **Bubble wrap**: 63 poppable bubbles with a juicy, satisfying pop sound
+- **Guided 4-7-8 breathing** for a one-minute reset, with gentle beach-wave ambience while it runs
 - Confetti celebrations, sound effects (with a mute toggle), and encouraging messages in Hebrew
 
 ## How it works

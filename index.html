@@ -1541,18 +1541,27 @@
         const ms = target - Date.now();
         if (ms <= 0) return null;
         const s = Math.floor(ms / 1000);
-        const d = Math.floor(s / 86400);
-        const h = String(Math.floor(s % 86400 / 3600)).padStart(2, '0');
-        const m = String(Math.floor(s % 3600 / 60)).padStart(2, '0');
-        const sec = String(s % 60).padStart(2, '0');
-        return { d, clock: h + ':' + m + ':' + sec };
+        return { d: Math.floor(s / 86400), h: Math.floor(s % 86400 / 3600), m: Math.floor(s % 3600 / 60) };
+      }
+      /* Lead with days so it can never be misread as a short minutes-only timer. */
+      function cdHtml(c) {
+        if (!c) return '<span class="dl-passed">⌛ הדדליין עבר!</span>';
+        if (c.d >= 1) {
+          const dWord = c.d === 1 ? 'יום' : 'ימים';
+          const hWord = c.h === 1 ? 'שעה' : 'שעות';
+          return '<span class="cd-days">עוד <b>' + c.d + '</b> ' + dWord + '</span>'
+            + '<span class="clock">ו־' + c.h + ' ' + hWord + '</span>';
+        }
+        if (c.h >= 1) {
+          const hWord = c.h === 1 ? 'שעה' : 'שעות';
+          return '<span class="cd-days">עוד <b>' + c.h + '</b> ' + hWord + '</span>'
+            + '<span class="clock">ו־' + c.m + ' דקות</span>';
+        }
+        return '<span class="cd-days">עוד <b>' + c.m + '</b> דקות</span>';
       }
       function tickCountdowns() {
-        const c1 = fmtCountdown(DEADLINE_1), c2 = fmtCountdown(DEADLINE_2);
-        $('cd1').innerHTML = c1 ? '<span class="cd-days">עוד <b>' + c1.d + '</b> ימים</span><span class="clock">' + c1.clock + '</span>'
-          : '<span class="dl-passed">⌛ הדדליין עבר!</span>';
-        $('cd2').innerHTML = c2 ? '<span class="cd-days">עוד <b>' + c2.d + '</b> ימים</span><span class="clock">' + c2.clock + '</span>'
-          : '<span class="dl-passed">⌛ הדדליין עבר!</span>';
+        $('cd1').innerHTML = cdHtml(fmtCountdown(DEADLINE_1));
+        $('cd2').innerHTML = cdHtml(fmtCountdown(DEADLINE_2));
       }
       setInterval(tickCountdowns, 1000);
 
